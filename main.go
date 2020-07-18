@@ -1,31 +1,34 @@
 package main
 
 import (
-	"fmt"
-	"net/url"
-	//"time"
+	"os"
+	"time"
+
+	"math/rand"
+
+	"github.com/joho/godotenv"
+
+	"database/sql"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
+	godotenv.Load("envfiles/.env")
+	t := time.Now()
+	rand.Seed(t.Unix())
+
+	db, _ := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	defer db.Close()
+
+	var num int
+	db.QueryRow("select count(*) from tweet").Scan(&num)
+	row := db.QueryRow("select id,text from tweet where id= $1 ", rand.Intn(num))
+
+	var id int
+	var text string
+	row.Scan(&id, &text)
+
 	api := GetTwitterAPI()
-
-	/*
-		t := time.Now()
-		tweet, err := api.PostTweet("うしたぷにきあくん楽しみ〜"+t.String(), nil)
-	*/
-
-	v := url.Values{}
-	v.Set("screen_name", "_ei13333")
-	timeline, _ := api.GetUserTimeline(v)
-
-	for _, tw := range timeline {
-		fmt.Println(tw.FullText)
-	}
-
-	dest := timeline[0].IdStr
-
-	v = url.Values{}
-	v.Set("in_reply_to_status_id", dest)
-	v.Set("auto_populate_reply_metadata", "true")
-	api.PostTweet("でも君，う し た ぷ に き あ く ん 笑 じゃん", v)
+	api.PostTweet(text, nil)
 }

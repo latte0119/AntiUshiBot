@@ -10,6 +10,7 @@ require (
 	github.com/dustin/gojson v0.0.0-20160307161227-2e71ec9dd5ad // indirect
 	github.com/garyburd/go-oauth v0.0.0-20180319155456-bca2e7f09a17 // indirect
 	github.com/joho/godotenv v1.3.0
+	github.com/lib/pq v1.7.0
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381 // indirect
 	rsc.io/quote v1.5.2
 )
