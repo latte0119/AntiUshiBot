@@ -17,6 +17,7 @@ func main() {
 	godotenv.Load("envfiles/.env")
 	t := time.Now()
 	rand.Seed(t.Unix())
+	api := GetTwitterAPI()
 
 	db, _ := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	defer db.Close()
@@ -28,7 +29,5 @@ func main() {
 	var id int
 	var text string
 	row.Scan(&id, &text)
-
-	api := GetTwitterAPI()
 	api.PostTweet(text, nil)
 }
