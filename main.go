@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 	"math/rand"
 	"time"
 
@@ -16,14 +16,16 @@ func main() {
 	t := time.Now()
 	rand.Seed(t.Unix())
 
-	mode := flag.String("mode", "regular_tweet", "mode")
+	mode := flag.String("mode", "", "mode")
 	flag.Parse()
 
 	switch *mode {
 	case "regular_tweet":
 		RegularTweet()
+	case "set_icon_by_time":
+		SetIconByTime()
 	default:
-		fmt.Println("undefined mode")
+		log.Println("undefined mode")
 	}
 
 }
