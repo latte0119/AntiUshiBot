@@ -1,27 +1,29 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"math/rand"
+	"time"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 func main() {
-	Init()
+	godotenv.Load("envfiles/.env")
 
-	//	api := GetTwitterAPI()
-	db := GetDB()
-	defer db.Close()
+	t := time.Now()
+	rand.Seed(t.Unix())
 
-	var num int
-	db.QueryRow("select count(*) from tweet").Scan(&num)
-	row := db.QueryRow("select id,text from tweet where id= $1 ", rand.Intn(num))
+	mode := flag.String("mode", "regular_tweet", "mode")
+	flag.Parse()
 
-	var id int
-	var text string
-	row.Scan(&id, &text)
+	switch *mode {
+	case "regular_tweet":
+		RegularTweet()
+	default:
+		fmt.Println("undefined mode")
+	}
 
-	fmt.Println(id, text)
-	///api.PostTweet(text+" KOREHA TESUTO DESU", nil)
 }
