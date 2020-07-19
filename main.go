@@ -2,11 +2,8 @@ package main
 
 import (
 	"os"
-	"time"
 
 	"math/rand"
-
-	"github.com/joho/godotenv"
 
 	"database/sql"
 
@@ -14,9 +11,8 @@ import (
 )
 
 func main() {
-	godotenv.Load("envfiles/.env")
-	t := time.Now()
-	rand.Seed(t.Unix())
+	Init()
+
 	api := GetTwitterAPI()
 
 	db, _ := sql.Open("postgres", os.Getenv("DATABASE_URL"))
