@@ -8,3 +8,6 @@ heroku app上で動いています．
 - 4時間おきに，DBからランダムにtextを取得してツイートしています  
 - 時計の短針と連動して，アイコンが回転します(更新：1時間ごと)  
 ![u](image/rotate/icon4.jpg)
+![u](image/rotate/icon11.jpg)
+![u](image/rotate/icon7.jpg)
+![u](image/rotate/icon1.jpg)
