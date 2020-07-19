@@ -16,6 +16,5 @@ func GetDB() *sql.DB {
 		panic(err)
 	}
 
-	defer db.Close()
 	return db
 }
