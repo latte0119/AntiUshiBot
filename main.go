@@ -1,33 +1,25 @@
 package main
 
 import (
-	"os"
-	"time"
-
+	"fmt"
 	"math/rand"
-
-	"github.com/joho/godotenv"
-
-	"database/sql"
 
 	_ "github.com/lib/pq"
 )
 
 func main() {
-	godotenv.Load("envfiles/.env")
-	t := time.Now()
-	rand.Seed(t.Unix())
-	api := GetTwitterAPI()
+	Init()
 
-	db, _ := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	defer db.Close()
+	//	api := GetTwitterAPI()
+	db := GetDB()
 
 	var num int
 	db.QueryRow("select count(*) from tweet").Scan(&num)
-	row := db.QueryRow("select id,text from tweet where id= $1 ", rand.Intn(num))
+	fmt.Println(num)
+	row := db.QueryRow("select id,text from tweet where id= $1 ", rand.Intn(3))
 
 	var id int
 	var text string
 	row.Scan(&id, &text)
-	api.PostTweet(text, nil)
+	///api.PostTweet(text+" KOREHA TESUTO DESU", nil)
 }
