@@ -24,6 +24,10 @@ func main() {
 		RegularTweet()
 	case "set_icon_by_time":
 		SetIconByTime()
+	case "many_tweets":
+		ManyTweets()
+	case "dev":
+		Dev()
 	default:
 		log.Println("undefined mode")
 	}
