@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -60,7 +61,7 @@ func GetWeatherInfo() WeatherInfo {
 	v := url.Values{}
 	v.Set("q", "Tokyo")
 	v.Set("units", "metric")
-	v.Set("appid", "d1dcf4b83f0b4d9a5e0dbc0a059028a2")
+	v.Set("appid", os.Getenv("OWM_KEY"))
 
 	res, err := http.Get(baseURL + "?" + v.Encode())
 	if err != nil {
@@ -95,6 +96,6 @@ func Dev() {
 	text += fmt.Sprintf("湿度:%v\n", wi.Main.Humidity)
 	text += fmt.Sprintf("雨量%v\n", wi.Rain.Rain1h)
 	fmt.Println(text)
-	//api := GetTwitterAPI()
-	//api.PostTweet("天気たぷにきあくん笑\n"+text, nil)
+	api := GetTwitterAPI()
+	api.PostTweet("天気たぷにきあくん笑\n"+text, nil)
 }
