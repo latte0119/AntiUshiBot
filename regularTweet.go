@@ -1,51 +1,40 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
+
+type item struct {
+	Tweet string `json:"tweet"`
+}
 
 /*
 RegularTweet tweets regularly
 */
 func RegularTweet() {
+	db := GetDDB()
+	out, err := db.Scan(&dynamodb.ScanInput{
+		TableName: aws.String("aub-tweet"),
+	})
 
-	api := GetTwitterAPI()
-	db := GetDB()
-	defer db.Close()
-
-	var num int
-	db.QueryRow("select count(*) from tweet").Scan(&num)
-	row := db.QueryRow("select id,text from tweet where id= $1 ", rand.Intn(num))
-
-	var id int
-	var text string
-	row.Scan(&id, &text)
-
-	log.Println(id, text)
-	api.PostTweet(text, nil)
-}
-
-/*
-ManyTweets tweets many tweets
-*/
-func ManyTweets() {
-	api := GetTwitterAPI()
-	db := GetDB()
-	defer db.Close()
-
-	var num int
-	db.QueryRow("select count(*) from tweet").Scan(&num)
-
-	val := ""
-	for i := 0; i < 10; i++ {
-		var id int
-		var text string
-		row := db.QueryRow("select id,text from tweet where id= $1 ", rand.Intn(num))
-		row.Scan(&id, &text)
-		val += text
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	log.Println(val)
-	api.PostTweet(val, nil)
+	arr := out.Items
+
+	k := rand.Intn(len(arr))
+	itm := item{}
+	dynamodbattribute.UnmarshalMap(arr[k], &itm)
+
+	fmt.Println(itm.Tweet)
+
+	api := GetTwitterAPI()
+	api.PostTweet(itm.Tweet, nil)
 }

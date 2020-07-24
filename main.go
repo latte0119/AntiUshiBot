@@ -21,8 +21,6 @@ func aub(query Query) {
 		RegularTweet()
 	case "set_icon_by_time":
 		SetIconByTime()
-	case "many_tweets":
-		ManyTweets()
 	case "dev":
 		Dev()
 	default:
