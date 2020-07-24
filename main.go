@@ -1,25 +1,22 @@
 package main
 
 import (
-	"flag"
 	"log"
 	"math/rand"
 	"time"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func main() {
-	godotenv.Load("envfiles/.env")
+type Query struct {
+	Mode string `json:"mode"`
+}
 
-	t := time.Now()
-	rand.Seed(t.Unix())
-
-	mode := flag.String("mode", "", "mode")
-	flag.Parse()
-
-	switch *mode {
+func aub(query Query) {
+	switch query.Mode {
 	case "regular_tweet":
 		RegularTweet()
 	case "set_icon_by_time":
@@ -32,4 +29,15 @@ func main() {
 		log.Println("undefined mode")
 	}
 
+}
+
+func main() {
+	godotenv.Load("envfiles/.env")
+
+	t := time.Now()
+	rand.Seed(t.Unix())
+
+	//mode := flag.String("mode", "", "mode")
+	//flag.Parse()
+	lambda.Start(aub)
 }
