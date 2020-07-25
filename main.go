@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )

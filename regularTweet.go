@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"math/rand"
 
@@ -10,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
-type item struct {
+type Item struct {
 	Tweet string `json:"tweet"`
 }
 
@@ -30,11 +29,11 @@ func RegularTweet() {
 	arr := out.Items
 
 	k := rand.Intn(len(arr))
-	itm := item{}
-	dynamodbattribute.UnmarshalMap(arr[k], &itm)
+	item := Item{}
+	dynamodbattribute.UnmarshalMap(arr[k], &item)
 
-	fmt.Println(itm.Tweet)
+	log.Println(item.Tweet)
 
 	api := GetTwitterAPI()
-	api.PostTweet(itm.Tweet, nil)
+	api.PostTweet(item.Tweet, nil)
 }

@@ -1,4 +1,4 @@
-module github.com/latte0119/aub
+module github.com/latte0119/AntiUshiBot
 
 go 1.13
 
