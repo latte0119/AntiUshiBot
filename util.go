@@ -9,6 +9,7 @@ import (
 	"math"
 	"net/url"
 	"os"
+	"strings"
 
 	"golang.org/x/image/math/f64"
 
@@ -16,9 +17,12 @@ import (
 	"golang.org/x/image/draw"
 )
 
-/*
-GenerateRotatedIcons generates images, each rotated by (360/12 *k) degrees
-*/
+func EscapeProcessing(text string) string {
+	text = strings.Replace(text, "\"", "\\\"", -1)
+	text = strings.Replace(text, "/", "\\/", -1)
+	return text
+}
+
 func GenerateRotatedIcons() {
 
 	fileIn, err := os.Open("image/icon.png")
