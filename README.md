@@ -2,7 +2,7 @@
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/_ei133333.svg?style=social&label=アンチうしbot%20%40_ei133333)](https://twitter.com/_ei133333)
 
 golangの練習の一環として作成しているtwitter botです．  
-heroku app上で動いています．
+aws上で動いてます
 
 # 現在の機能
 - 4時間おきに，DBからランダムにtextを取得してツイートしています  
@@ -12,4 +12,6 @@ heroku app上で動いています．
 ![u](image/rotate/icon11.jpg)
 ![u](image/rotate/icon7.jpg)
 ![u](image/rotate/icon1.jpg)
-![u](image/rotate/icon0.jpg)
+![u](image/rotate/icon0.jpg)  
+
+- 自動でフォローを返します
