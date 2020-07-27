@@ -6,10 +6,14 @@ import (
 
 func TestWeatherTweet(t *testing.T) {
 	Init()
-	WeatherTweet()
+	if err := WeatherTweet(); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestUpdateNameWithEmoji(t *testing.T) {
 	Init()
-	UpdateNameWithEmoji("アンチうしbot")
+	if err := UpdateNameWithEmoji("アンチうしbot"); err != nil {
+		t.Fatal(err)
+	}
 }

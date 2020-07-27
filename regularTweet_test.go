@@ -6,5 +6,7 @@ import (
 
 func TestRegularTweet(t *testing.T) {
 	Init()
-	RegularTweet()
+	if err := RegularTweet(); err != nil {
+		t.Fatal(err)
+	}
 }

@@ -9,5 +9,7 @@ func TestUpdateName(t *testing.T) {
 
 func TestUpdateDescription(t *testing.T) {
 	Init()
-	UpdateDescription("私はうしbotです")
+	if err := UpdateDescription("私はうしbotです"); err != nil {
+		t.Fatal(err)
+	}
 }

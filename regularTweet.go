@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"math/rand"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -13,22 +12,30 @@ type Item struct {
 	Tweet string `json:"tweet"`
 }
 
-func RegularTweet() {
-	db := GetDDB()
+func RegularTweet() error {
+	db, err := GetDDB()
+	if err != nil {
+		return err
+	}
 	out, err := db.Scan(&dynamodb.ScanInput{
 		TableName: aws.String("aub-tweet"),
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	arr := out.Items
 
 	k := rand.Intn(len(arr))
 	item := Item{}
-	dynamodbattribute.UnmarshalMap(arr[k], &item)
+	if err := dynamodbattribute.UnmarshalMap(arr[k], &item); err != nil {
+		return err
+	}
 
 	api := GetTwitterAPI()
-	api.PostTweet(item.Tweet, nil)
+	if _, err := api.PostTweet(item.Tweet, nil); err != nil {
+		return err
+	}
+	return nil
 }

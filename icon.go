@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -12,7 +11,7 @@ import (
 	"github.com/dghubble/oauth1"
 )
 
-func SetIconByTime() {
+func SetIconByTime() error {
 	loc, _ := time.LoadLocation("Asia/Tokyo")
 	t := time.Now().In(loc)
 
@@ -38,9 +37,10 @@ func SetIconByTime() {
 
 	req, err := http.NewRequest("POST", "https://api.twitter.com/1.1/account/update_profile_image.json"+"?"+values.Encode(), nil)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	if _, err = httpClient.Do(req); err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }

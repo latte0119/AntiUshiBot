@@ -1,23 +1,19 @@
 package main
 
 import (
-	"log"
+	"errors"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
-/*
-GetDDB returns a new dynamodb client
-*/
-func GetDDB() *dynamodb.DynamoDB {
-
+func GetDDB() (*dynamodb.DynamoDB, error) {
 	sess := session.Must(session.NewSession())
 
 	svc := dynamodb.New(sess, aws.NewConfig().WithRegion("ap-northeast-1"))
 	if svc == nil {
-		log.Fatal("db not found")
+		return nil, errors.New("Error : cannot connect to the DB")
 	}
-	return svc
+	return svc, nil
 }

@@ -1,12 +1,18 @@
 package main
 
 import (
+	"encoding/json"
+
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/koron/go-dproxy"
 )
 
 func aub(query interface{}) {
-	FollowBack(query)
+	bodystr, _ := dproxy.New(query).M("body").String()
+	var body interface{}
+	json.Unmarshal([]byte(bodystr), &body)
+	FollowBack(body)
+	Reply(body)
 
 	mode, _ := dproxy.New(query).M("mode").String()
 
