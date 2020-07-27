@@ -15,6 +15,8 @@ func aub(query interface{}) {
 		RegularTweet()
 	case "set_icon_by_time":
 		SetIconByTime()
+	case "update_name_with_emoji":
+		UpdateNameWithEmoji("アンチうしbot")
 	default:
 	}
 }

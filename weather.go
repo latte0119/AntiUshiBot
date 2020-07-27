@@ -51,3 +51,10 @@ func ForecastTweet() {
 	api := GetTwitterAPI()
 	api.PostTweet(text, nil)
 }
+
+func UpdateNameWithEmoji(orig string) {
+	wapi := owmjp.NewAPIWithKey(os.Getenv("OWM_KEY"))
+	w, _ := wapi.GetCurrentWeatherData("Tokyo", nil)
+	e, _ := w.Emoji()
+	UpdateName(e + orig + e)
+}
