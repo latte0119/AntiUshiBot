@@ -43,9 +43,7 @@ func SetIconByTime() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	res, err := httpClient.Do(req)
-	if err != nil {
+	if _, err = httpClient.Do(req); err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("%v", res.Status)
 }
