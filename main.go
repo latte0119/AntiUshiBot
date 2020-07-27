@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -16,9 +15,8 @@ type User struct {
 }
 
 func aub(query interface{}) {
-	str := fmt.Sprintf("%#v", query)
-	api := GetTwitterAPI()
-	api.PostDMToScreenName(str, "latte0119_")
+	//body := query.(map[string]interface{})["body"]
+
 }
 
 func TimeTweet() {
