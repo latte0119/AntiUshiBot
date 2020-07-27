@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -12,21 +10,16 @@ import (
 )
 
 func aub(query interface{}) {
-	bodystr, err := dproxy.New(query).M("body").String()
-	if err != nil {
-		PostDMToMe(err.Error())
-		return
-	}
-	var body interface{}
-	json.Unmarshal([]byte(bodystr), &body)
-	val, err := dproxy.New(body).M("follow_events").Value()
-	str, err := dproxy.New(val).A(0).M("source").M("screen_name").String()
-	if err == nil {
-		api := GetTwitterAPI()
-		api.PostTweet(fmt.Sprintf("followed by %s", str), nil)
-		//PostDMToMe(fmt.Sprintf("%#v", str))
-	} else {
-		//PostDMToMe(err.Error())
+	FollowBack(query)
+
+	mode, _ := dproxy.New(query).M("mode").String()
+
+	switch mode {
+	case "regular_tweet":
+		RegularTweet()
+	case "set_icon_by_time":
+		SetIconByTime()
+	default:
 	}
 }
 

@@ -13,9 +13,6 @@ type Item struct {
 	Tweet string `json:"tweet"`
 }
 
-/*
-RegularTweet tweets regularly
-*/
 func RegularTweet() {
 	db := GetDDB()
 	out, err := db.Scan(&dynamodb.ScanInput{
@@ -31,8 +28,6 @@ func RegularTweet() {
 	k := rand.Intn(len(arr))
 	item := Item{}
 	dynamodbattribute.UnmarshalMap(arr[k], &item)
-
-	log.Println(item.Tweet)
 
 	api := GetTwitterAPI()
 	api.PostTweet(item.Tweet, nil)
