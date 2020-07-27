@@ -11,6 +11,7 @@ func aub(query interface{}) {
 	bodystr, _ := dproxy.New(query).M("body").String()
 	var body interface{}
 	json.Unmarshal([]byte(bodystr), &body)
+
 	FollowBack(body)
 	Reply(body)
 

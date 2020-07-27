@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"time"
 
 	"golang.org/x/image/math/f64"
 
@@ -18,6 +19,9 @@ import (
 )
 
 func EscapeProcessing(text string) string {
+	text = strings.Replace(text, "\\\"", "\"", -1)
+	//text = strings.Replace(text, "\\", "\\\\", -1)
+	//	text = strings.Replace(text, "\\", "X", -1)
 	text = strings.Replace(text, "\"", "\\\"", -1)
 	text = strings.Replace(text, "/", "\\/", -1)
 	return text
@@ -71,6 +75,13 @@ func GenerateRotatedIcons() {
 		}
 	}
 
+}
+
+func GetDetailedTime() string {
+	loc, _ := time.LoadLocation("Asia/Tokyo")
+	t := time.Now().In(loc)
+
+	return t.Format(time.ANSIC)
 }
 
 func deleteAll(api *anaconda.TwitterApi) {
