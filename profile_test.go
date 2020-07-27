@@ -4,7 +4,9 @@ import "testing"
 
 func TestUpdateName(t *testing.T) {
 	Init()
-	UpdateName("アンチうしbot")
+	if err := UpdateName("アンチうしbot"); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestUpdateDescription(t *testing.T) {
