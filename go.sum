@@ -24,6 +24,8 @@ github.com/jmespath/go-jmespath v0.3.0 h1:OS12ieG61fsCg5+qLJ+SsW9NicxNkg3b25OyT2
 github.com/jmespath/go-jmespath v0.3.0/go.mod h1:9QtRXoHjLGCJ5IBSaohpXITPlowMeeYCZ7fLUTSywik=
 github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
 github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=
+github.com/koron/go-dproxy v1.3.0 h1:wE0gxsw1NJnbkk5czp3/xUtwgTeLP8p/YaSjdUOmI7k=
+github.com/koron/go-dproxy v1.3.0/go.mod h1:M+lZRjGA7zf1CdgBWoL8HH1lKb6jlgR4qnX3hxRdQHs=
 github.com/latte0119/owmjp v0.0.0-20200725175338-f31d8de18c8e h1:7ZHEsbunWEvMPSHD6p+JQAnNuPpIOFAARBl9PwM9A64=
 github.com/latte0119/owmjp v0.0.0-20200725175338-f31d8de18c8e/go.mod h1:xd5QusN7En4Igjer5KUG6R1gRsdgAu3UTYNL/NRvbvY=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=

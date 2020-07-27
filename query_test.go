@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
@@ -15,9 +16,13 @@ import (
 )
 
 func TestPostDMToMe(ti *testing.T) {
-
 	godotenv.Load("envfiles/.env")
-	PostDMToMe("latte")
+
+	blob := []byte(`{"latte":"malta"}`)
+	var val interface{}
+	json.Unmarshal(blob, &val)
+	PostDMToMe(fmt.Sprintf("%#v", val))
+	ti.Fatalf("%#v", val)
 }
 
 func TestQuery(ti *testing.T) {

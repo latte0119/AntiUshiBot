@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -9,6 +10,8 @@ import (
 )
 
 func PostDMToMe(text string) {
+	text = strings.Replace(text, "\"", "\\\"", -1)
+	text = strings.Replace(text, "/", "\\/", -1)
 	url := "https://api.twitter.com/1.1/direct_messages/events/new.json"
 	payload := strings.NewReader("{\n\t\"event\":{\n\t\t\t\"type\":\"message_create\",\n\t\t\"message_create\": {\n    \"target\": {\n      \"recipient_id\": \"1284149601826598913\"\n    },\n    \"message_data\": {\n      \"text\": \"" + text + "\"\n    }\n  }\n\t}\n}")
 	req, _ := http.NewRequest("POST", url, payload)
@@ -19,5 +22,9 @@ func PostDMToMe(text string) {
 
 	req.Header.Add("content-type", "application/json")
 
-	httpClient.Do(req)
+	_, err := httpClient.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
