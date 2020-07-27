@@ -22,12 +22,15 @@ func WeatherTweet() {
 	fmt.Printf("%v\n", wi.Weather[0].Main)
 
 	var text string
-	text += fmt.Sprintf("天気:%v\n", wi.Weather[0].Description)
-	text += fmt.Sprintf("気温:%v\n", wi.Main.Temp)
+	if tmp, err := wi.MainJP(); err == nil {
+		text += fmt.Sprintf("天気:%v\n", tmp)
+	}
+	text += fmt.Sprintf("詳細:%v\n", wi.Weather[0].Description)
+	text += fmt.Sprintf("気温:%.1f\n", wi.Main.Temp)
 	text += fmt.Sprintf("湿度:%v\n", wi.Main.Humidity)
 	fmt.Println(text)
 	api := GetTwitterAPI()
-	api.PostTweet("天気たぷにきあくん(真顔)\n"+text, nil)
+	api.PostTweet("天気たぷにきあくん(笑顔)\n"+text, nil)
 }
 
 func ForecastTweet() {
@@ -45,6 +48,6 @@ func ForecastTweet() {
 	}
 	log.Print(text)
 
-	api:=GetTwitterAPI()
-	api.PostTweet(text,nil)
+	api := GetTwitterAPI()
+	api.PostTweet(text, nil)
 }
