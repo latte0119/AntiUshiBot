@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 	"time"
 
@@ -16,36 +15,10 @@ type User struct {
 	ScreenName string `json:"screen_name"`
 }
 
-type Query struct {
-	Mode string `json:"mode"`
-	Body struct {
-		FollowEvents []struct {
-			Type   string `json:"type"`
-			Target User   `json:"target"`
-			Source User   `json:"source"`
-		} `json:"follow_events"`
-	} `json:"body"`
-}
-
-func aub(query Query) {
-	for i := 0; i < len(query.Body.FollowEvents); i++ {
-		follower := query.Body.FollowEvents[i].Source.ScreenName
-		api := GetTwitterAPI()
-		t := time.Now()
-		api.PostTweet(fmt.Sprintf("%v %s", t.Unix(), follower), nil)
-	}
-
-	switch query.Mode {
-	case "regular_tweet":
-		RegularTweet()
-	case "set_icon_by_time":
-		SetIconByTime()
-	case "weather_tweet":
-		WeatherTweet()
-	default:
-		log.Println("undefined mode")
-	}
-
+func aub(query []interface{}) {
+	str := fmt.Sprintf("%#v", query)
+	api := GetTwitterAPI()
+	api.PostDMToScreenName(str, "latte0119_")
 }
 
 func TimeTweet() {
