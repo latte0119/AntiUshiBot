@@ -12,9 +12,6 @@ import (
 	"github.com/dghubble/oauth1"
 )
 
-/*
-SetIconByTime sets the icon by time
-*/
 func SetIconByTime() {
 	loc, _ := time.LoadLocation("Asia/Tokyo")
 	t := time.Now().In(loc)
