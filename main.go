@@ -15,7 +15,7 @@ type User struct {
 	ScreenName string `json:"screen_name"`
 }
 
-func aub(query []interface{}) {
+func aub(query interface{}) {
 	str := fmt.Sprintf("%#v", query)
 	api := GetTwitterAPI()
 	api.PostDMToScreenName(str, "latte0119_")
