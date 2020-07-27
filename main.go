@@ -1,11 +1,7 @@
 package main
 
 import (
-	"math/rand"
-	"time"
-
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/joho/godotenv"
 	"github.com/koron/go-dproxy"
 )
 
@@ -24,8 +20,7 @@ func aub(query interface{}) {
 }
 
 func main() {
-	godotenv.Load(".env")
-	rand.Seed(time.Now().Unix())
+	Init()
 
 	lambda.Start(aub)
 }
