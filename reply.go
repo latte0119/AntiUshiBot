@@ -19,11 +19,11 @@ func Reply(body interface{}) error {
 	}
 
 	for _, tw := range val.([]interface{}) {
-		if _, err := dproxy.New(tw).M("in_reply_to_status_id_str").String(); err != nil {
+		if id, _ := dproxy.New(tw).M("user").M("id_str").String(); id == forUserID {
 			continue
 		}
 
-		if id, _ := dproxy.New(tw).M("user").M("id_str").String(); id == forUserID {
+		if _, err := dproxy.New(body).M("retweeted_status").Value(); err != nil {
 			continue
 		}
 
@@ -61,6 +61,20 @@ func Reply(body interface{}) error {
 
 		if origText, _ := dproxy.New(tw).M("text").String(); strings.Contains(origText, "謎") {
 			text, err := GenForecastEmojiTweet()
+			if err != nil {
+				return err
+			}
+
+			api := GetTwitterAPI()
+			v := url.Values{}
+			v.Add("in_reply_to_status_id", tweetID)
+
+			api.PostTweet("@"+screenName+" "+GetDetailedTime()+"\n"+text, v)
+			continue
+		}
+
+		if origText, _ := dproxy.New(tw).M("text").String(); strings.Contains(origText, "う") {
+			text := "こんにちは " + screenName + "さん\n" + "わたしはアンチうしbot\n"
 			if err != nil {
 				return err
 			}
