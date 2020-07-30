@@ -23,7 +23,11 @@ func Reply(body interface{}) error {
 			continue
 		}
 
-		if _, err := dproxy.New(body).M("retweeted_status").Value(); err != nil {
+		if _, err := dproxy.New(tw).M("retweeted_status").Value(); err == nil {
+			continue
+		}
+
+		if flag, err := dproxy.New(tw).M("is_quote_status").Bool(); err == nil && flag == true {
 			continue
 		}
 
