@@ -1,41 +1,66 @@
 package main
 
 import (
+	"errors"
+
 	"math/rand"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
-type Item struct {
+func getDDB() (*dynamodb.DynamoDB, error) {
+	sess := session.Must(session.NewSession())
+
+	svc := dynamodb.New(sess, aws.NewConfig().WithRegion("ap-northeast-1"))
+	if svc == nil {
+		return nil, errors.New("Error : cannot connect to the DB")
+	}
+	return svc, nil
+}
+
+type item struct {
 	Tweet string `json:"tweet"`
 }
 
-func RegularTweet() error {
-	db, err := GetDDB()
+func fetchTweetList() ([]string, error) {
+	db, err := getDDB()
 	if err != nil {
-		return err
+		return nil, err
 	}
 	out, err := db.Scan(&dynamodb.ScanInput{
 		TableName: aws.String("aub-tweet"),
 	})
 
 	if err != nil {
+		return nil, err
+	}
+
+	arr := make([]string, len(out.Items))
+	for k, att := range out.Items {
+		itm := item{}
+		if err := dynamodbattribute.UnmarshalMap(att, &itm); err != nil {
+			return nil, err
+		}
+		arr[k] = itm.Tweet
+	}
+
+	return arr, nil
+}
+
+func (aub *AntiUshiBot) RegularTweet() error {
+	arr, err := fetchTweetList()
+	if err != nil {
 		return err
 	}
 
-	arr := out.Items
+	if len(arr) == 0 {
+		return errors.New("Error : tweet list is empty")
+	}
 
 	k := rand.Intn(len(arr))
-	item := Item{}
-	if err := dynamodbattribute.UnmarshalMap(arr[k], &item); err != nil {
-		return err
-	}
 
-	api := GetTwitterAPI()
-	if _, err := api.PostTweet(item.Tweet, nil); err != nil {
-		return err
-	}
-	return nil
+	return aub.PostTweet(arr[k])
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"os"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/koron/go-dproxy"
@@ -17,9 +18,15 @@ func aub(query interface{}) {
 
 	mode, _ := dproxy.New(query).M("mode").String()
 
+	antiUshiBot := NewAntiUshiBot(
+		os.Getenv("ACCESS_TOKEN"),
+		os.Getenv("ACCESS_TOKEN_SECRET"),
+		os.Getenv("CONSUMER_KEY"),
+		os.Getenv("CONSUMER_SECRET"))
+
 	switch mode {
 	case "regular_tweet":
-		RegularTweet()
+		antiUshiBot.RegularTweet()
 	case "set_icon_by_time":
 		SetIconByTime()
 	case "update_name_with_emoji":

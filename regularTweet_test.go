@@ -1,12 +1,15 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
-func TestRegularTweet(t *testing.T) {
-	Init()
-	if err := RegularTweet(); err != nil {
+func TestGetDDB(t *testing.T) {
+	if _, err := getDDB(); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestFetchTweetList(t *testing.T) {
+	if _, err := fetchTweetList(); err != nil {
 		t.Fatal(err)
 	}
 }
